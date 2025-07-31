@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>คำเตือนเกี่ยวกับ Cookie</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      background-color: #000;
+      color: #fff;
+      font-family: "Arial", sans-serif;
+      overflow: hidden;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 48px;
+      text-align: center;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+      max-width: 90%;
+    }
+
+    .ball {
+      width: 50px;
+      height: 50px;
+      background-color: #ff0;
+      border-radius: 50%;
+      position: absolute;
+      top: 100px;
+      left: 100px;
+    }
+  </style>
+</head>
+<body>
+  <h1>ไม่อยากโดนขโมยข้อมูลก็ลบ cookie ออกด้วยนะครับ</h1>
+  <div class="ball" id="ball"></div>
+
+  <script>
+    const ball = document.getElementById('ball');
+    let x = 100;
+    let y = 100;
+    let dx = 2;
+    let dy = 2;
+
+   
+    const keySpeed = 10;
+    let keys = {
+      ArrowLeft: false,
+      ArrowRight: false,
+      ArrowUp: false,
+      ArrowDown: false
+    };
+
+  
+    document.addEventListener('keydown', (e) => {
+      if (keys.hasOwnProperty(e.key)) {
+        keys[e.key] = true;
+      }
+    });
+
+    document.addEventListener('keyup', (e) => {
+      if (keys.hasOwnProperty(e.key)) {
+        keys[e.key] = false;
+      }
+    });
+
+    function animate() {
+      const ballSize = 50;
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+
+      x += dx;
+      y += dy;
+
+      if (x + ballSize > width || x < 0) dx = -dx;
+      if (y + ballSize > height || y < 0) dy = -dy;
+
+      if (keys.ArrowLeft) x -= keySpeed;
+      if (keys.ArrowRight) x += keySpeed;
+      if (keys.ArrowUp) y -= keySpeed;
+      if (keys.ArrowDown) y += keySpeed;
+
+      x = Math.max(0, Math.min(x, width - ballSize));
+      y = Math.max(0, Math.min(y, height - ballSize));
+
+      ball.style.left = x + 'px';
+      ball.style.top = y + 'px';
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  </script>
+</body>
+</html>
